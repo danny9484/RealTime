@@ -1,5 +1,7 @@
 -- RealTime by danny9484
 PLUGIN = nil
+-- Use the InfoReg shared library to process the Info.lua file:
+dofile(cPluginManager:GetPluginsPath() .. "/InfoReg.lua")
 
 function Initialize(Plugin)
 	Plugin:SetName("RealTime")
