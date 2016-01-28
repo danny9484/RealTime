@@ -1,14 +1,15 @@
+-- RealTime by danny9484
 PLUGIN = nil
 
 function Initialize(Plugin)
 	Plugin:SetName("RealTime")
 	Plugin:SetVersion(1)
-	
+
 	-- Hooks
 cPluginManager:AddHook(cPluginManager.HOOK_WORLD_TICK, Time);
-	
+
 	PLUGIN = Plugin -- NOTE: only needed if you want OnDisable() to use GetName() or something like that
-	
+
 	-- Command Bindings
 
 	LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
