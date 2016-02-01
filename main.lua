@@ -14,6 +14,21 @@ cPluginManager:AddHook(cPluginManager.HOOK_WORLD_TICK, Time);
 
 	-- Command Bindings
 
+	-- read Config
+	local IniFile = cIniFile();
+	if (IniFile:ReadFile(PLUGIN:GetLocalFolder() .. "/worlds.ini")) then
+		local i = 1
+		Worlds = {1}
+		while Worlds[i] ~= nil do
+			Worlds[i] = IniFile:GetValue("Worlds", tostring(i))
+			LOG(Plugin:GetName() .. ": Synching " .. Worlds[i])
+			i = i + 1
+		end
+	else
+		LOG("can't read worlds.ini")
+		return false
+	end
+
 	LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
 	return true
 end
@@ -23,13 +38,18 @@ function OnDisable()
 end
 
 function Time(World)
-	hour = os.date("%H") * 1000 + 18000;
-	minute = os.date("%M") * 100 / 6;
-	seconds = os.date("%S") * 28 / 100;
-	ticks = hour + minute + seconds;
-	if (ticks > 24000) then
-		ticks = ticks - 24000;
+	local i = 1
+	while Worlds[i] ~= nil do
+		if Worlds[i] == World:GetName() then
+			hour = os.date("%H") * 1000 + 18000;
+			minute = os.date("%M") * 100 / 6;
+			seconds = os.date("%S") * 28 / 100;
+			ticks = hour + minute + seconds;
+			if (ticks > 24000) then
+				ticks = ticks - 24000;
+			end
+			World:SetTimeOfDay(ticks);
+		end
+		i = i + 1
 	end
-	World:SetTimeOfDay(ticks);
-	-- LOG(ticks);
 end
