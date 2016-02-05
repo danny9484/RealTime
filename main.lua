@@ -18,8 +18,8 @@ cPluginManager:AddHook(cPluginManager.HOOK_WORLD_TICK, Time);
 	local IniFile = cIniFile();
 	if (IniFile:ReadFile(PLUGIN:GetLocalFolder() .. "/worlds.ini")) then
 		local i = 1
-		Worlds = {1}
-		while Worlds[i] ~= nil do
+		Worlds = {}
+		while IniFile:GetValue("Worlds", tostring(i)) ~= "" do
 			Worlds[i] = IniFile:GetValue("Worlds", tostring(i))
 			LOG(Plugin:GetName() .. ": Synching " .. Worlds[i])
 			i = i + 1
@@ -29,7 +29,7 @@ cPluginManager:AddHook(cPluginManager.HOOK_WORLD_TICK, Time);
 		return false
 	end
 
-	LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
+	LOG("Initialized " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
 	return true
 end
 
